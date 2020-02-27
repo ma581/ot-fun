@@ -40,8 +40,6 @@ test("Display no rows if no data", () => {
 
   const { container } = render(<Table data={data} />);
   const tableRows = container.querySelectorAll("tbody>tr");
-  const tableColumns = container.querySelectorAll("tbody> tr> td");
 
   expect(tableRows.length).toBe(0);
-  expect(tableColumns.length).toBe(0);
 });
