@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types"; // ES6
 
 function Table({ data }) {
   return (
@@ -18,7 +19,7 @@ function Table({ data }) {
                 <td>{item.symbol}</td>
                 <td>{item.geneId}</td>
                 <td>{item.geneName}</td>
-                <td>{item.associationScore}</td>
+                <td>{item.overallAssociationScore}</td>
               </tr>
             ))
           : null}
@@ -26,5 +27,9 @@ function Table({ data }) {
     </table>
   );
 }
+
+Table.propTypes = {
+  data: PropTypes.array
+};
 
 export default Table;

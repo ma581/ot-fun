@@ -17,13 +17,13 @@ test("Display data passed in", async () => {
       symbol: "EGFR",
       geneId: "ENSG0001",
       geneName: "epidermal growth",
-      associationScore: 1.0
+      overallAssociationScore: 1.0
     },
     {
       symbol: "SMAD2",
       geneId: "ENSG0001",
       geneName: "epidermal growth",
-      associationScore: 1.0
+      overallAssociationScore: 1.0
     }
   ];
 
