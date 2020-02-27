@@ -1,9 +1,43 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { render, wait } from "@testing-library/react";
 import App from "./App";
+import axiosMock from "axios";
 
-test("renders learn react link", () => {
+jest.mock("axios");
+
+afterEach(jest.clearAllMocks);
+const url = "https://demo6922545.mockable.io/";
+
+test("renders learn react link", async () => {
+  axiosMock.get.mockReturnValue(
+    Promise.resolve({
+      data: { greeting: "hello there" }
+    })
+  );
   const { getByText } = render(<App />);
   const linkElement = getByText(/Feel free to edit/i);
   expect(linkElement).toBeInTheDocument();
+
+  await wait();
+});
+
+test("Fetch data from https://demo6922545.mockable.io/", async () => {
+  axiosMock.get.mockResolvedValueOnce({
+    data: { greeting: "hello there" }
+  });
+  render(<App />);
+
+  expect(axiosMock.get).toHaveBeenCalledTimes(1);
+  expect(axiosMock.get).toHaveBeenCalledWith(url);
+  await wait();
+});
+
+test("Should not crash if fetching data fails", async () => {
+  axiosMock.get.mockReturnValueOnce(Promise.reject("oh no"));
+
+  render(<App />);
+
+  expect(axiosMock.get).toHaveBeenCalledTimes(1);
+  expect(axiosMock.get).toHaveBeenCalledWith(url);
+  await wait();
 });
