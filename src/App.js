@@ -9,14 +9,24 @@ function App() {
     axios
       .get("https://demo6922545.mockable.io/")
       .then(res => setData(res.data))
-      .catch(err => console.warn(err));
+      .catch(err => console.error(err));
   }, []);
 
   return (
     <div className="App">
-      <p>
-        Feel free to edit <code>src/App.js</code> and save to reload.
-      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>Symbol</th>
+            <th>Gene ID</th>
+            <th>Gene Name</th>
+            <th>Overall Association Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr></tr>
+        </tbody>
+      </table>
     </div>
   );
 }

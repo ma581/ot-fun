@@ -6,25 +6,14 @@ import axiosMock from "axios";
 jest.mock("axios");
 
 afterEach(jest.clearAllMocks);
+
 const url = "https://demo6922545.mockable.io/";
-
-test("renders learn react link", async () => {
-  axiosMock.get.mockReturnValue(
-    Promise.resolve({
-      data: { greeting: "hello there" }
-    })
-  );
-  const { getByText } = render(<App />);
-  const linkElement = getByText(/Feel free to edit/i);
-  expect(linkElement).toBeInTheDocument();
-
-  await wait();
-});
 
 test("Fetch data from https://demo6922545.mockable.io/", async () => {
   axiosMock.get.mockResolvedValueOnce({
     data: { greeting: "hello there" }
   });
+
   render(<App />);
 
   expect(axiosMock.get).toHaveBeenCalledTimes(1);
@@ -39,5 +28,19 @@ test("Should not crash if fetching data fails", async () => {
 
   expect(axiosMock.get).toHaveBeenCalledTimes(1);
   expect(axiosMock.get).toHaveBeenCalledWith(url);
+  await wait();
+});
+
+test("Should render a data table with column headings", async () => {
+  axiosMock.get.mockResolvedValueOnce({
+    data: { greeting: "hello there" }
+  });
+
+  const { getByText } = render(<App />);
+
+  expect(getByText("Symbol")).toBeInTheDocument();
+  expect(getByText("Gene ID")).toBeInTheDocument();
+  expect(getByText("Gene Name")).toBeInTheDocument();
+  expect(getByText("Overall Association Score")).toBeInTheDocument();
   await wait();
 });
