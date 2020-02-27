@@ -4,7 +4,6 @@ import axios from "axios";
 
 function App() {
   const [data, setData] = useState({});
-
   useEffect(() => {
     axios
       .get("https://demo6922545.mockable.io/")
@@ -12,23 +11,7 @@ function App() {
       .catch(err => console.error(err));
   }, []);
 
-  return (
-    <div className="App">
-      <table>
-        <thead>
-          <tr>
-            <th>Symbol</th>
-            <th>Gene ID</th>
-            <th>Gene Name</th>
-            <th>Overall Association Score</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr></tr>
-        </tbody>
-      </table>
-    </div>
-  );
+  return <div className="App"></div>;
 }
 
 export default App;

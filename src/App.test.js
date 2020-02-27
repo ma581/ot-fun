@@ -30,17 +30,3 @@ test("Should not crash if fetching data fails", async () => {
   expect(axiosMock.get).toHaveBeenCalledWith(url);
   await wait();
 });
-
-test("Should render a data table with column headings", async () => {
-  axiosMock.get.mockResolvedValueOnce({
-    data: { greeting: "hello there" }
-  });
-
-  const { getByText } = render(<App />);
-
-  expect(getByText("Symbol")).toBeInTheDocument();
-  expect(getByText("Gene ID")).toBeInTheDocument();
-  expect(getByText("Gene Name")).toBeInTheDocument();
-  expect(getByText("Overall Association Score")).toBeInTheDocument();
-  await wait();
-});
