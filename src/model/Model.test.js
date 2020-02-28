@@ -1,4 +1,4 @@
-import { toModel } from "./Model";
+import { sortByAssociationScore, toModel } from "./Model";
 
 test("Should transform to model", () => {
   const data = [
@@ -261,4 +261,17 @@ test("Should transform to model", () => {
   ];
 
   expect(toModel(data)).toEqual(expected);
+});
+
+test("Should sort by highest association score", () => {
+  const input = [
+    { overallAssociationScore: 0 },
+    { overallAssociationScore: 1 },
+    { overallAssociationScore: 0.5 }
+  ];
+
+  const sorted = sortByAssociationScore(input);
+  expect(sorted[0].overallAssociationScore).toBe(1);
+  expect(sorted[1].overallAssociationScore).toBe(0.5);
+  expect(sorted[2].overallAssociationScore).toBe(0);
 });

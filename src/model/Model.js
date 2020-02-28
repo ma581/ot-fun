@@ -15,3 +15,13 @@ export function toModel(data) {
     }
   }));
 }
+
+export const sortByAssociationScore = model =>
+  model.sort((a, b) => {
+    if (a.overallAssociationScore > b.overallAssociationScore) {
+      return -1;
+    } else if (a.overallAssociationScore < b.overallAssociationScore) {
+      return 1;
+    }
+    return 0;
+  });

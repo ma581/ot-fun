@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import axios from "axios";
-import { toModel } from "./model/Model";
+import { sortByAssociationScore, toModel } from "./model/Model";
 import Table from "./components/Table";
 
 function App() {
@@ -11,7 +11,7 @@ function App() {
       .get("https://demo6922545.mockable.io/")
       .then(res => res.data)
       .then(res => (res.data ? res.data : []))
-      .then(data => setData(toModel(data)))
+      .then(data => setData(sortByAssociationScore(toModel(data))))
       .catch(err => console.error(err));
   }, []);
 
