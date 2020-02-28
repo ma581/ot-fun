@@ -1,5 +1,5 @@
 import React from "react";
-import { render, wait, cleanup } from "@testing-library/react";
+import { render, waitForElement, wait, cleanup } from "@testing-library/react";
 import App from "./App";
 import axiosMock from "axios";
 
@@ -18,20 +18,19 @@ test("Should fetch data from https://demo6922545.mockable.io/", async () => {
   });
 
   render(<App />);
+  await wait();
 
   expect(axiosMock.get).toHaveBeenCalledTimes(1);
   expect(axiosMock.get).toHaveBeenCalledWith(url);
-  await wait();
 });
 
-test("Should not crash if fetching data fails", async () => {
+test("Should not crash if fetching data fails", () => {
   axiosMock.get.mockReturnValueOnce(Promise.reject("oh no"));
 
   render(<App />);
 
   expect(axiosMock.get).toHaveBeenCalledTimes(1);
   expect(axiosMock.get).toHaveBeenCalledWith(url);
-  await wait();
 });
 
 test("Should render extracted data from json response", async () => {
@@ -65,8 +64,6 @@ test("Should render extracted data from json response", async () => {
 
   const { getByText } = render(<App />);
 
-  await wait(() => {
-    expect(getByText("TFPI")).toBeInTheDocument();
-    expect(getByText("0.4")).toBeInTheDocument();
-  });
+  const element = await waitForElement(() => getByText("TFPI"));
+  expect(element).toBeInTheDocument();
 });

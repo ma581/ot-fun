@@ -64,19 +64,31 @@ describe("Table", () => {
 
 describe("Button behaviour", () => {
   const visibleRowsSelector = "tr[aria-hidden='false']";
-
   const data = [
     {
       symbol: "EGFR",
       geneId: "ENSG0001",
       geneName: "epidermal growth",
-      overallAssociationScore: 1.0
+      overallAssociationScore: 1.0,
+      associationScores: {
+        literature: 0.5,
+        rnaExpression: 0.5,
+        geneticAssociation: 0.5,
+        somaticMutation: 0.5,
+        knownDrug: 0.5,
+        animalModel: 0.5,
+        affectedPathway: 0.5
+      }
     }
   ];
+  let container, button;
+
+  beforeEach(() => {
+    container = render(<Table data={data} />).container;
+    button = container.querySelector("button");
+  });
 
   test("Should display extra row if button is pressed", () => {
-    const { container } = render(<Table data={data} />);
-    const button = container.querySelector("button");
     let visibleRows = container.querySelectorAll(visibleRowsSelector);
     expect(visibleRows.length).toBe(0);
 
@@ -87,8 +99,6 @@ describe("Button behaviour", () => {
   });
 
   test("Should hide extra row if button is pressed again", () => {
-    const { container } = render(<Table data={data} />);
-    const button = container.querySelector("button");
     fireEvent.click(button);
     let visibleRows = container.querySelectorAll(visibleRowsSelector);
     expect(visibleRows.length).toBe(1);
@@ -97,5 +107,11 @@ describe("Button behaviour", () => {
 
     visibleRows = container.querySelectorAll(visibleRowsSelector);
     expect(visibleRows.length).toBe(0);
+  });
+
+  test("Should display graph when button is pressed", () => {
+    fireEvent.click(button);
+    const graph = container.querySelector("svg");
+    expect(graph).toBeTruthy();
   });
 });

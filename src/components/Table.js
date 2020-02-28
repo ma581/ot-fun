@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import Highcharts from "highcharts";
+import HighchartsReact from "highcharts-react-official";
 
 function Table({ data }) {
   const headings = [
@@ -38,11 +40,31 @@ const useRow = item => {
         <td>{item.overallAssociationScore}</td>
       </tr>
       <tr aria-hidden={hidden} hidden={hidden}>
-        <td colSpan={4}>-</td>
+        <td colSpan={4}>
+          {getBarChart(item.associationScores ? item.associationScores : {})}
+        </td>
       </tr>
     </React.Fragment>
   );
 };
+
+function getBarChart(scores) {
+  const options = {
+    title: {
+      text: "Association Score vs Data Type"
+    },
+    series: [
+      {
+        data: Object.values(scores),
+        type: "column"
+      }
+    ],
+    xAxis: {
+      categories: Object.keys(scores)
+    }
+  };
+  return <HighchartsReact highcharts={Highcharts} options={options} />;
+}
 
 Table.propTypes = {
   data: PropTypes.array
