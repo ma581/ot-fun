@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import BootstrapTable from "react-bootstrap/Table";
+import BootstrapButton from "react-bootstrap/Button";
 
 function Table({ data }) {
   const headings = [
@@ -13,7 +15,7 @@ function Table({ data }) {
   ];
 
   return (
-    <table>
+    <BootstrapTable bordered hover>
       <thead>
         <tr>
           {headings.map(heading => (
@@ -22,7 +24,7 @@ function Table({ data }) {
         </tr>
       </thead>
       <tbody>{data ? data.map(useRow) : null}</tbody>
-    </table>
+    </BootstrapTable>
   );
 }
 
@@ -32,7 +34,12 @@ const useRow = item => {
     <React.Fragment key={item.geneId}>
       <tr data-testid="data-row">
         <td>
-          <button onClick={() => setHidden(!hidden)}>+</button>
+          <BootstrapButton
+            variant="outline-primary"
+            onClick={() => setHidden(!hidden)}
+          >
+            +
+          </BootstrapButton>
         </td>
         <td>{item.symbol}</td>
         <td>{item.geneId}</td>
@@ -40,7 +47,7 @@ const useRow = item => {
         <td>{item.overallAssociationScore}</td>
       </tr>
       <tr aria-hidden={hidden} hidden={hidden}>
-        <td colSpan={4}>
+        <td colSpan={5}>
           {getBarChart(item.associationScores ? item.associationScores : {})}
         </td>
       </tr>

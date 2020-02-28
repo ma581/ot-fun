@@ -1,6 +1,6 @@
 import React from "react";
 import { render, waitForElement, wait, cleanup } from "@testing-library/react";
-import App from "./App";
+import App, { url } from "./App";
 import axiosMock from "axios";
 
 jest.mock("axios");
@@ -9,8 +9,6 @@ afterEach(jest.clearAllMocks);
 afterAll(() => {
   cleanup();
 });
-
-const url = "https://demo6922545.mockable.io/";
 
 test("Should fetch data from https://demo6922545.mockable.io/", async () => {
   axiosMock.get.mockResolvedValueOnce({
