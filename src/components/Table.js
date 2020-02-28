@@ -28,14 +28,14 @@ function Table({ data }) {
 }
 
 const useExpandableRow = item => {
-  const [hidden, setHidden] = useState(true);
+  const [visible, setVisible] = useState(false);
   return (
     <React.Fragment key={item.geneId}>
       <tr data-testid="data-row">
         <td>
           <BootstrapButton
             variant="outline-primary"
-            onClick={() => setHidden(!hidden)}
+            onClick={() => setVisible(!visible)}
           >
             +
           </BootstrapButton>
@@ -45,13 +45,13 @@ const useExpandableRow = item => {
         <td>{item.geneName}</td>
         <td>{item.overallAssociationScore}</td>
       </tr>
-      {hidden ? null : (
+      {visible ? (
         <tr data-testid="expandable-row">
           <td colSpan={5}>
             <BarChart scores={item.associationScores} />
           </td>
         </tr>
-      )}
+      ) : null}
     </React.Fragment>
   );
 };
