@@ -63,10 +63,15 @@ function getBarChart(scores) {
     series: [
       {
         data: Object.values(scores),
-        type: "column"
+        type: "column",
+        showInLegend: false
       }
     ],
+    yAxis: {
+      title: { text: "Score" }
+    },
     xAxis: {
+      title: { text: "Data Type" },
       categories: Object.keys(scores)
     }
   };
