@@ -1,9 +1,9 @@
 import React, { useState } from "react";
+import "./Table.css";
 import PropTypes from "prop-types";
-import Highcharts from "highcharts";
-import HighchartsReact from "highcharts-react-official";
 import BootstrapTable from "react-bootstrap/Table";
 import BootstrapButton from "react-bootstrap/Button";
+import BarChart from "./BarChart";
 
 function Table({ data }) {
   const headings = [
@@ -23,12 +23,12 @@ function Table({ data }) {
           ))}
         </tr>
       </thead>
-      <tbody>{data ? data.map(useRow) : null}</tbody>
+      <tbody>{data ? data.map(useExpandableRow) : null}</tbody>
     </BootstrapTable>
   );
 }
 
-const useRow = item => {
+const useExpandableRow = item => {
   const [hidden, setHidden] = useState(true);
   return (
     <React.Fragment key={item.geneId}>
@@ -48,35 +48,12 @@ const useRow = item => {
       </tr>
       <tr aria-hidden={hidden} hidden={hidden}>
         <td colSpan={5}>
-          {getBarChart(item.associationScores ? item.associationScores : {})}
+          <BarChart scores={item.associationScores} />
         </td>
       </tr>
     </React.Fragment>
   );
 };
-
-function getBarChart(scores) {
-  const options = {
-    title: {
-      text: "Association Score vs Data Type"
-    },
-    series: [
-      {
-        data: Object.values(scores),
-        type: "column",
-        showInLegend: false
-      }
-    ],
-    yAxis: {
-      title: { text: "Score" }
-    },
-    xAxis: {
-      title: { text: "Data Type" },
-      categories: Object.keys(scores)
-    }
-  };
-  return <HighchartsReact highcharts={Highcharts} options={options} />;
-}
 
 Table.propTypes = {
   data: PropTypes.array

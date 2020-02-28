@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
 
 import axios from "axios";
 import { sortByAssociationScore, toModel } from "./model/Model";
@@ -22,7 +22,8 @@ function App() {
   }, []);
 
   return (
-    <div className="table">
+    <div>
+      <h1>Genes associated with lung carcinoma</h1>
       <Table data={data.slice(0, 5)} />
     </div>
   );
