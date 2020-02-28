@@ -11,13 +11,15 @@ function App() {
       .get("https://demo6922545.mockable.io/")
       .then(res => res.data)
       .then(res => (res.data ? res.data : []))
-      .then(data => setData(sortByAssociationScore(toModel(data))))
+      .then(toModel)
+      .then(sortByAssociationScore)
+      .then(setData)
       .catch(err => console.error(err));
   }, []);
 
   return (
     <div className="table">
-      <Table data={data} />
+      <Table data={data.slice(0, 5)} />
     </div>
   );
 }
