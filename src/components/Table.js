@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 function Table({ data }) {
@@ -9,6 +9,7 @@ function Table({ data }) {
     "Gene Name",
     "Overall Association Score"
   ];
+
   return (
     <table>
       <thead>
@@ -18,24 +19,30 @@ function Table({ data }) {
           ))}
         </tr>
       </thead>
-      <tbody>
-        {data
-          ? data.map(item => (
-              <tr key={item.geneId}>
-                <td>
-                  <button>+</button>
-                </td>
-                <td>{item.symbol}</td>
-                <td>{item.geneId}</td>
-                <td>{item.geneName}</td>
-                <td>{item.overallAssociationScore}</td>
-              </tr>
-            ))
-          : null}
-      </tbody>
+      <tbody>{data ? data.map(useRow) : null}</tbody>
     </table>
   );
 }
+
+const useRow = item => {
+  const [hidden, setHidden] = useState(true);
+  return (
+    <React.Fragment key={item.geneId}>
+      <tr data-testid="data-row">
+        <td>
+          <button onClick={() => setHidden(!hidden)}>+</button>
+        </td>
+        <td>{item.symbol}</td>
+        <td>{item.geneId}</td>
+        <td>{item.geneName}</td>
+        <td>{item.overallAssociationScore}</td>
+      </tr>
+      <tr aria-hidden={hidden} hidden={hidden}>
+        <td colSpan={4}>-</td>
+      </tr>
+    </React.Fragment>
+  );
+};
 
 Table.propTypes = {
   data: PropTypes.array
