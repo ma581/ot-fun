@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./Table.css";
 import PropTypes from "prop-types";
 import BootstrapTable from "react-bootstrap/Table";
 import BootstrapButton from "react-bootstrap/Button";
