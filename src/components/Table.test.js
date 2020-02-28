@@ -17,23 +17,25 @@ describe("Table", () => {
       {
         symbol: "EGFR",
         geneId: "ENSG0001",
-        geneName: "epidermal growth",
+        geneName: "epidermal growth 1",
         overallAssociationScore: 1.0
       },
       {
         symbol: "SMAD2",
         geneId: "ENSG0002",
-        geneName: "epidermal growth",
-        overallAssociationScore: 1.0
+        geneName: "epidermal growth 2",
+        overallAssociationScore: 0
       }
     ];
 
-    const { getAllByTestId } = render(<Table data={data} />);
+    const { getAllByTestId, getByText } = render(<Table data={data} />);
     const tableRows = getAllByTestId("data-row");
-    const tableData = tableRows[0].querySelectorAll("td");
+    const cellsInRowOne = tableRows[0].querySelectorAll("td");
 
+    expect(getByText("EGFR")).toBeInTheDocument();
+    expect(getByText("0")).toBeInTheDocument();
     expect(tableRows.length).toBe(2);
-    expect(tableData.length).toBe(5);
+    expect(cellsInRowOne.length).toBe(5); // One additional column for + button
   });
 
   test("Display no rows if no data", () => {
@@ -63,7 +65,7 @@ describe("Table", () => {
 });
 
 describe("Button behaviour", () => {
-  const visibleRowsSelector = "tr[aria-hidden='false']";
+  const visibleRowsSelector = "[data-testid='expandable-row']";
   const data = [
     {
       symbol: "EGFR",
@@ -110,8 +112,11 @@ describe("Button behaviour", () => {
   });
 
   test("Should display graph when button is pressed", () => {
+    expect(container.querySelector("svg")).toBeNull();
+
     fireEvent.click(button);
+
     const graph = container.querySelector("svg");
-    expect(graph).toBeTruthy();
+    expect(graph).toBeInTheDocument();
   });
 });

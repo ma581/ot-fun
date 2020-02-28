@@ -45,11 +45,13 @@ const useExpandableRow = item => {
         <td>{item.geneName}</td>
         <td>{item.overallAssociationScore}</td>
       </tr>
-      <tr aria-hidden={hidden} hidden={hidden}>
-        <td colSpan={5}>
-          <BarChart scores={item.associationScores} />
-        </td>
-      </tr>
+      {hidden ? null : (
+        <tr data-testid="expandable-row">
+          <td colSpan={5}>
+            <BarChart scores={item.associationScores} />
+          </td>
+        </tr>
+      )}
     </React.Fragment>
   );
 };
