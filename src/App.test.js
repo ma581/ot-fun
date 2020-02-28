@@ -22,13 +22,14 @@ test("Should fetch data from https://demo6922545.mockable.io/", async () => {
   expect(axiosMock.get).toHaveBeenCalledWith(url);
 });
 
-test("Should not crash if fetching data fails", () => {
+test("Should show error message if fetching data fails", () => {
   axiosMock.get.mockReturnValueOnce(Promise.reject("oh no"));
 
-  render(<App />);
+  const { getByText } = render(<App />);
 
   expect(axiosMock.get).toHaveBeenCalledTimes(1);
   expect(axiosMock.get).toHaveBeenCalledWith(url);
+  expect(getByText(/failed to fetch data/)).toBeInTheDocument();
 });
 
 test("Should render extracted data from json response", async () => {
