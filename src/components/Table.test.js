@@ -32,7 +32,7 @@ test("Display data passed in", async () => {
   const tableData = container.querySelectorAll("tbody> tr> td");
 
   expect(tableRows.length).toBe(2);
-  expect(tableData.length).toBe(8);
+  expect(tableData.length).toBe(10);
 });
 
 test("Display no rows if no data", () => {
@@ -42,4 +42,20 @@ test("Display no rows if no data", () => {
   const tableRows = container.querySelectorAll("tbody>tr");
 
   expect(tableRows.length).toBe(0);
+});
+
+test("Should have column of buttons", () => {
+  const data = [
+    {
+      symbol: "EGFR",
+      geneId: "ENSG0001",
+      geneName: "epidermal growth",
+      overallAssociationScore: 1.0
+    }
+  ];
+
+  const { container } = render(<Table data={data} />);
+  const buttons = container.querySelectorAll("button");
+
+  expect(buttons.length).toBe(1);
 });
