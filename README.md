@@ -1,4 +1,4 @@
-#VISUALISING ASSOCIATION SCORES
+# Visualising Association Scores
 
 ## Available Scripts
 
