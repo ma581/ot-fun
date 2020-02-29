@@ -12,8 +12,7 @@ export const useFetchData = () => {
     axios
       .get(URL)
       .then(res => res.data)
-      .then(json => (json.data ? json.data : []))
-      .then(data => setResponse({ status: SUCCESS, data: data }))
+      .then(json => setResponse({ status: SUCCESS, data: json.data }))
       .catch(err => {
         setResponse({ status: ERROR, data: err });
         console.error(err);

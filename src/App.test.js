@@ -73,3 +73,8 @@ test("Should say Loading if fetch is not complete", () => {
   const body = getBody({ status: LOADING, data: [] });
   expect(body).toEqual(<p>Loading</p>);
 });
+
+test("Should not crash if API response is not as expected", () => {
+  const body = getBody({ status: LOADING, data: { fake: "data" } });
+  expect(body).toEqual(<p>Loading</p>);
+});

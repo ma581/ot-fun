@@ -18,16 +18,23 @@ function App() {
 }
 
 export const getBody = ({ status, data }) => {
-  const errorMessage =
+  const failedToFetchMsg =
     "Oops, failed to fetch data. Please try again in a little while.";
+  const failedToProcessMsg = "Oops, failed to process the data.";
+
   switch (status) {
     case ERROR:
-      return <p>{errorMessage}</p>;
+      return <p>{failedToFetchMsg}</p>;
     case SUCCESS:
-      const model = toModel(data);
-      const sorted = sortByAssociationScore(model);
-      const topFive = sorted.slice(0, 5);
-      return <Table data={topFive} />;
+      try {
+        const model = toModel(data);
+        const sorted = sortByAssociationScore(model);
+        const topFive = sorted.slice(0, 5);
+        return <Table data={topFive} />;
+      } catch (e) {
+        console.error(e);
+        return <p>{failedToProcessMsg}</p>;
+      }
     default:
       return <p>Loading</p>;
   }

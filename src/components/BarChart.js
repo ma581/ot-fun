@@ -4,9 +4,6 @@ import React from "react";
 import PropTypes from "prop-types";
 
 export default function BarChart({ scores }) {
-  if (!scores) {
-    return null;
-  }
   const chartTitle = "Association Score vs Data Type";
   const xAxisTitle = "Data Type";
   const yAxisTitle = "Score";
