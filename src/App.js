@@ -1,38 +1,36 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-
-import axios from "axios";
 import { sortByAssociationScore, toModel } from "./model/Model";
 import Table from "./components/Table";
+import { ERROR, SUCCESS, useFetchData } from "./useFetchData";
 
-export const url = "https://demo6922545.mockable.io/";
-const errorMessage =
-  "Oops, failed to fetch data. Please try again in a little while.";
+export const URL = "https://demo6922545.mockable.io/";
 
 function App() {
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    axios
-      .get(url)
-      .then(res => res.data)
-      .then(res => (res.data ? res.data : []))
-      .then(toModel)
-      .then(sortByAssociationScore)
-      .then(setData)
-      .catch(err => console.error(err));
-  }, []);
-
+  const body = getBody(useFetchData());
   return (
     <div>
       <h1>Genes associated with lung carcinoma</h1>
-      {data.length > 0 ? (
-        <Table data={data.slice(0, 5)} />
-      ) : (
-        <p>{errorMessage}</p>
-      )}
+      {body}
     </div>
   );
 }
+
+export const getBody = ({ status, data }) => {
+  const errorMessage =
+    "Oops, failed to fetch data. Please try again in a little while.";
+  switch (status) {
+    case ERROR:
+      return <p>{errorMessage}</p>;
+    case SUCCESS:
+      const model = toModel(data);
+      const sorted = sortByAssociationScore(model);
+      const topFive = sorted.slice(0, 5);
+      return <Table data={topFive} />;
+    default:
+      return <p>Loading</p>;
+  }
+};
 
 export default App;

@@ -1,7 +1,8 @@
 import React from "react";
 import { render, waitForElement, wait, cleanup } from "@testing-library/react";
-import App, { url } from "./App";
+import App, { getBody, URL } from "./App";
 import axiosMock from "axios";
+import { LOADING } from "./useFetchData";
 
 jest.mock("axios");
 
@@ -19,17 +20,18 @@ test("Should fetch data from https://demo6922545.mockable.io/", async () => {
   await wait();
 
   expect(axiosMock.get).toHaveBeenCalledTimes(1);
-  expect(axiosMock.get).toHaveBeenCalledWith(url);
+  expect(axiosMock.get).toHaveBeenCalledWith(URL);
 });
 
-test("Should show error message if fetching data fails", () => {
+test("Should show error message if fetching data fails", async () => {
   axiosMock.get.mockReturnValueOnce(Promise.reject("oh no"));
 
   const { getByText } = render(<App />);
 
   expect(axiosMock.get).toHaveBeenCalledTimes(1);
-  expect(axiosMock.get).toHaveBeenCalledWith(url);
-  expect(getByText(/failed to fetch data/)).toBeInTheDocument();
+  await wait(() =>
+    expect(getByText(/failed to fetch data/)).toBeInTheDocument()
+  );
 });
 
 test("Should render extracted data from json response", async () => {
@@ -65,4 +67,9 @@ test("Should render extracted data from json response", async () => {
 
   const element = await waitForElement(() => getByText("TFPI"));
   expect(element).toBeInTheDocument();
+});
+
+test("Should say Loading if fetch is not complete", () => {
+  const body = getBody({ status: LOADING, data: [] });
+  expect(body).toEqual(<p>Loading</p>);
 });
