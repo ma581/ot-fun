@@ -10,7 +10,7 @@ export const URL = "https://demo6922545.mockable.io/";
 function App() {
   const body = getBody(useFetchData());
   return (
-    <div>
+    <div className={"App"}>
       <h1>Genes associated with lung carcinoma</h1>
       {body}
     </div>

@@ -1,3 +1,8 @@
 h1 {
   padding: 1em 1em 1em 1em;
 }
+
+.App {
+  max-width: 90%;
+  margin: auto;
+}
